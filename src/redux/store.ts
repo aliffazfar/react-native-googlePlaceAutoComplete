@@ -1,9 +1,8 @@
 import {combineReducers, configureStore} from '@reduxjs/toolkit';
-
-import messageReducer from './slices/message';
+import placesSlice from './slices/placesSlice';
 
 const reducer = combineReducers({
-  message: messageReducer,
+  places: placesSlice,
 });
 
 const store = configureStore({
