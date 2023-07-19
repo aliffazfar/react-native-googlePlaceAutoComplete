@@ -19,7 +19,7 @@ interface SearchLocationInputProps extends InputProps {
   data?: Item[];
   isLoading: boolean;
   isError: boolean;
-  onPressItem: (item: Item) => void;
+  onPressItem: (item: Item, isFromSearching: boolean) => void;
 }
 
 export const SearchLocationInput = (props: SearchLocationInputProps) => {
@@ -65,7 +65,7 @@ export const SearchLocationInput = (props: SearchLocationInputProps) => {
               data={props.data}
               onPress={item => {
                 setModalVisible(false);
-                props.onPressItem(item);
+                props.onPressItem(item, true);
               }}
             />
           ) : (

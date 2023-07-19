@@ -34,8 +34,10 @@ export const HomeScreen = () => {
     };
   });
 
-  const handleOnPressItem = (item: Item) => {
-    dispatch(addRecentSearches(item));
+  const handleOnPressItem = (item: Item, isFromSearching = false) => {
+    if (isFromSearching) {
+      dispatch(addRecentSearches(item));
+    }
     navigation.navigate('LocationDetail', {
       name: item.label,
       place_id: item.value,
@@ -68,12 +70,7 @@ export const HomeScreen = () => {
       </Text>
       <ListItems
         data={recentSearches ? recentSearches.slice(0, 3) : defaultLocationData}
-        onPress={item => {
-          navigation.navigate('LocationDetail', {
-            name: item.label,
-            place_id: item.value,
-          });
-        }}
+        onPress={handleOnPressItem}
       />
     </SafeAreaView>
   );
