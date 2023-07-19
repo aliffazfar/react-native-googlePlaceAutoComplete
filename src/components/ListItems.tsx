@@ -19,7 +19,9 @@ export const ListItems = (props: ListItemsProps) => {
   return (
     <FlatList
       data={props.data}
-      keyExtractor={item => item.value}
+      keyExtractor={(_, index) => {
+        return index.toString();
+      }}
       renderItem={({item, index}) => {
         if (item.value) {
           return (
@@ -45,7 +47,7 @@ export const ListItems = (props: ListItemsProps) => {
             </TouchableOpacity>
           );
         }
-        return <Fragment key={index}></Fragment>;
+        return <Fragment />;
       }}
       showsVerticalScrollIndicator={false}
       ListFooterComponent={<FooterByGoogle />}
