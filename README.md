@@ -1,7 +1,15 @@
-Welcome to MyProject!
+<br />
 
-This is a React Native TypeScript project that implements the Google Place Autocomplete API from scratch, without using react-native-google-places-autocomplete packages, to find places and display them on a map.
-It also utilizes Redux-thunk middleware to fetch data from the API.
+<p align="center">
+  <h1 align="center">React Native Google Place Autocomplete</h1>
+
+  <p align="center">
+    Implements the Google Place Autocomplete API from scratch, without using react-native-google-places-autocomplete packages, to find    places and display them on a map.
+    <br />
+    </p>
+</p>
+
+https://github.com/aliffazfar/react-native-googlePlaceAutoComplete/assets/97839622/5e3f96cd-ee67-4800-b2c5-6cf8f2fad0e7
 
 ## Features
 
@@ -41,9 +49,13 @@ git clone https://github.com/aliffazfar/react-native-googlePlaceAutoComplete.git
 
 The project follows the following folder structure:
 
-src/components: Contains reusable components used in the project.
-src/hooks: Contains custom hooks.
-src/redux: Contains Redux slices for fetching and managing data.
-src/screens: Contains the main screens of the application.
-src/services: Contains the API service config and endpoints.
-src/types: Contains TypeScript type declarations for the project.
+- src/components: Contains reusable components used in the project.
+- src/hooks: Contains custom hooks.
+- src/redux: Contains Redux slices for fetching and managing data.
+- src/screens: Contains the main screens of the application.
+- src/services: Contains the API service config and endpoints.
+- src/types: Contains TypeScript type declarations for the project.
+
+
+## Contact
+For any inquiries or questions, please contact aliffazfararis@gmail.com.
