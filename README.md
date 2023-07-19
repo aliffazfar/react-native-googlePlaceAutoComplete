@@ -52,6 +52,7 @@ The project follows the following folder structure:
 - src/components: Contains reusable components used in the project.
 - src/hooks: Contains custom hooks.
 - src/redux: Contains Redux slices for fetching and managing data.
+- src/redux/thunk: Contains API fetching with async thunk.
 - src/screens: Contains the main screens of the application.
 - src/services: Contains the API service config and endpoints.
 - src/types: Contains TypeScript type declarations for the project.
