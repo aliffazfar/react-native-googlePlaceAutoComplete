@@ -1,0 +1,1 @@
+type StackNavigation = StackNavigationProp<StackParamList>;

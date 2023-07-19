@@ -1,7 +1,9 @@
 import {FlatList, Text, TouchableOpacity, View} from 'react-native';
-import React from 'react';
+import React, {Fragment} from 'react';
 import {COLORS} from '../styles';
 import {FooterByGoogle} from './atoms';
+import {Flex} from '@ant-design/react-native';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 interface ListItemsProps {
   data?: Item[];
@@ -18,20 +20,33 @@ export const ListItems = (props: ListItemsProps) => {
     <FlatList
       data={props.data}
       keyExtractor={item => item.value}
-      renderItem={({item, index}) => (
-        <TouchableOpacity key={index} onPress={() => props.onPress(item)}>
-          {index > 0 ? (
-            <View
-              key={index}
-              style={{
-                borderWidth: 0.5,
-                borderColor: COLORS.NEUTRAL.d5,
-              }}
-            />
-          ) : null}
-          <Text style={{marginVertical: 13}}>{item.label}</Text>
-        </TouchableOpacity>
-      )}
+      renderItem={({item, index}) => {
+        if (item.value) {
+          return (
+            <TouchableOpacity key={index} onPress={() => props.onPress(item)}>
+              {index > 0 ? (
+                <View
+                  style={{
+                    borderWidth: 0.5,
+                    borderColor: COLORS.NEUTRAL.d5,
+                  }}
+                />
+              ) : null}
+              <Flex direction={'row'}>
+                <Flex.Item>
+                  <Text style={{marginVertical: 13}}>{item.label}</Text>
+                </Flex.Item>
+                <Icon
+                  name={'arrow-right'}
+                  size={13}
+                  style={{paddingLeft: 50}}
+                />
+              </Flex>
+            </TouchableOpacity>
+          );
+        }
+        return <Fragment key={index}></Fragment>;
+      }}
       showsVerticalScrollIndicator={false}
       ListFooterComponent={<FooterByGoogle />}
     />

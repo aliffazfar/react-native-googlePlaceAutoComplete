@@ -17,7 +17,9 @@ const screenHeight = Dimensions.get('screen').height;
 
 interface SearchLocationInputProps extends InputProps {
   data?: Item[];
-  isLoading?: boolean;
+  isLoading: boolean;
+  isError: boolean;
+  onPressItem: (item: Item) => void;
 }
 
 export const SearchLocationInput = (props: SearchLocationInputProps) => {
@@ -57,18 +59,25 @@ export const SearchLocationInput = (props: SearchLocationInputProps) => {
           />
           <WhiteSpace size="xl" />
           {props.isLoading ? (
-            <ActivityIndicator
-              style={styles.loading}
-              animating={props.isLoading}
-            />
+            <ActivityIndicator animating style={styles.loading} />
           ) : props.value ? (
             <ListItems
               data={props.data}
-              onPress={() => setModalVisible(false)}
+              onPress={item => {
+                setModalVisible(false);
+                props.onPressItem(item);
+              }}
             />
           ) : (
             <FooterByGoogle />
           )}
+          {props.isError ? (
+            <View style={styles.error}>
+              <Text style={{textAlign: 'center'}}>
+                {'Oops,\nsomething went wrong'}
+              </Text>
+            </View>
+          ) : null}
         </View>
       </Modal>
     </Fragment>
@@ -102,5 +111,10 @@ const styles = StyleSheet.create({
   },
   loading: {
     paddingBottom: 10,
+  },
+  error: {
+    flex: 1,
+    justifyContent: 'center',
+    alignSelf: 'center',
   },
 });

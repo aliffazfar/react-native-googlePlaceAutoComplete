@@ -3,11 +3,6 @@ import {Item} from '../components';
 export const defaultLocationData: Item[] = [
   {
     label:
-      'Maybank Tower, Jalan Tun Perak, Bukit Bintang, Kuala Lumpur, Federal Territory of Kuala Lumpur, Malaysia',
-    value: 'ChIJwcT1wtNJzDERK72Wi2Bzthc',
-  },
-  {
-    label:
       'Malaysian Anti-Corruption Commission (MACC) Headquarters, Lebuh Wawasan, Presint 7, Putrajaya, Malaysia',
     value: 'ChIJC2htZ7a3zTERyu7asudurgc',
   },

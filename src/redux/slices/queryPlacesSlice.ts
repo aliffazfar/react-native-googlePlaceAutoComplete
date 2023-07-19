@@ -4,11 +4,13 @@ import {fetchPlaces} from '../thunk';
 interface state {
   data?: fetchPlacesResponses;
   isLoading: boolean;
+  isError: boolean;
   error?: null | string;
 }
 
 const iniialState: state = {
   isLoading: false,
+  isError: false,
   error: null,
 };
 
@@ -28,6 +30,7 @@ const queryPlacesSlice = createSlice({
     builder.addCase(fetchPlaces.rejected, (state, action) => {
       state.isLoading = false;
       state.error = action.error.message;
+      state.isError = true;
     });
   },
 });

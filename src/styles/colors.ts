@@ -21,7 +21,18 @@ const PRIMARY = {
   d6: '#FDCCCD',
 };
 
+const GREEN = {
+  d0: '#004A22',
+  d1: '#00813B',
+  d2: '#00B855',
+  d3: '#33C677',
+  d4: '#66D499',
+  d5: '#99E3BB',
+  d6: '#CCF1DD',
+};
+
 export const COLORS = {
   NEUTRAL,
   PRIMARY,
+  GREEN,
 };
