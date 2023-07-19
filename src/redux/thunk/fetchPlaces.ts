@@ -3,7 +3,7 @@ import {api, endpoints} from '../../services';
 import Config from 'react-native-config';
 
 export const fetchPlaces = createAsyncThunk(
-  'data/queryautocomplete',
+  'queryPlaces/queryautocomplete',
   async (input: string) => {
     const response = await api.get(endpoints.QUERY_AUTO_COMPLETE, {
       params: {

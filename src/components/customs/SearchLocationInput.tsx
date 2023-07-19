@@ -1,34 +1,23 @@
 import {
+  ActivityIndicator,
   Dimensions,
-  FlatList,
-  Image,
-  Pressable,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import React, {Fragment, useState} from 'react';
 import {COLORS} from '../../styles';
-import {
-  ActivityIndicator,
-  Flex,
-  Modal,
-  WhiteSpace,
-} from '@ant-design/react-native';
-import {IMAGES} from '../../assets';
-import {Input, InputProps} from '../atoms';
+import {Flex, Modal, WhiteSpace} from '@ant-design/react-native';
+import {FooterByGoogle, Input, InputProps} from '../atoms';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import {Item, ListItems} from '../ListItems';
 
 const screenHeight = Dimensions.get('screen').height;
 
 interface SearchLocationInputProps extends InputProps {
-  data?: SearchInputData[];
+  data?: Item[];
   isLoading?: boolean;
-}
-
-export interface SearchInputData {
-  label: string;
-  value: string;
 }
 
 export const SearchLocationInput = (props: SearchLocationInputProps) => {
@@ -44,22 +33,14 @@ export const SearchLocationInput = (props: SearchLocationInputProps) => {
 
   return (
     <Fragment>
-      <Pressable
+      <TouchableOpacity
         onPress={() => setModalVisible(true)}
-        style={{borderBottomWidth: 1}}>
-        <Flex direction="row-reverse" style={{marginTop: 10}}>
-          <Icon name="search" size={20} style={{paddingHorizontal: 10}} />
-          <Text
-            style={{
-              marginVertical: 10,
-              color: COLORS.NEUTRAL.d4,
-              fontSize: 16,
-              flex: 1,
-            }}>
-            {props.placeholder}
-          </Text>
+        style={styles.wrapper}>
+        <Flex direction="row-reverse" style={styles.flexContainer}>
+          <Icon name="search" size={20} style={styles.icon} />
+          <Text style={styles.placeholder}>{props.placeholder}</Text>
         </Flex>
-      </Pressable>
+      </TouchableOpacity>
       <Modal
         popup
         visible={isModalVisible}
@@ -76,39 +57,17 @@ export const SearchLocationInput = (props: SearchLocationInputProps) => {
           />
           <WhiteSpace size="xl" />
           {props.isLoading ? (
-            <ActivityIndicator animating={props.isLoading} />
-          ) : (
-            <FlatList
-              data={props.data}
-              keyExtractor={item => item.value}
-              renderItem={({item, index}) => (
-                <Pressable key={index} onPress={() => setModalVisible(false)}>
-                  {index > 0 ? (
-                    <View
-                      style={{
-                        borderWidth: 0.5,
-                        borderColor: COLORS.NEUTRAL.d5,
-                      }}
-                    />
-                  ) : null}
-                  <Text style={{marginVertical: 13}}>{item.label}</Text>
-                </Pressable>
-              )}
-              showsVerticalScrollIndicator={false}
-              ListFooterComponent={() => (
-                <Flex direction="row-reverse" style={{marginTop: 10}}>
-                  <Image source={IMAGES.GOOGLE_LOGO} />
-                  <Text
-                    style={{
-                      color: COLORS.NEUTRAL.d4,
-                      fontSize: 11,
-                      marginRight: 5,
-                    }}>
-                    powered by
-                  </Text>
-                </Flex>
-              )}
+            <ActivityIndicator
+              style={styles.loading}
+              animating={props.isLoading}
             />
+          ) : props.value ? (
+            <ListItems
+              data={props.data}
+              onPress={() => setModalVisible(false)}
+            />
+          ) : (
+            <FooterByGoogle />
           )}
         </View>
       </Modal>
@@ -117,6 +76,21 @@ export const SearchLocationInput = (props: SearchLocationInputProps) => {
 };
 
 const styles = StyleSheet.create({
+  wrapper: {
+    borderBottomWidth: 1,
+  },
+  flexContainer: {
+    marginTop: 10,
+  },
+  icon: {
+    paddingHorizontal: 10,
+  },
+  placeholder: {
+    marginVertical: 10,
+    color: COLORS.NEUTRAL.d4,
+    fontSize: 16,
+    flex: 1,
+  },
   modalContainer: {
     borderTopRightRadius: 20,
     borderTopLeftRadius: 20,
@@ -125,5 +99,8 @@ const styles = StyleSheet.create({
   modalFrame: {
     height: screenHeight / 1.3,
     marginTop: 20,
+  },
+  loading: {
+    paddingBottom: 10,
   },
 });

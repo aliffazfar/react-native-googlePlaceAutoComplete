@@ -12,8 +12,8 @@ const iniialState: state = {
   error: null,
 };
 
-const placesSlice = createSlice({
-  name: 'message',
+const queryPlacesSlice = createSlice({
+  name: 'queryPlaces',
   initialState: iniialState,
   reducers: {},
   extraReducers: builder => {
@@ -32,5 +32,5 @@ const placesSlice = createSlice({
   },
 });
 
-export const {} = placesSlice.actions;
-export default placesSlice.reducer;
+export const {} = queryPlacesSlice.actions;
+export default queryPlacesSlice.reducer;

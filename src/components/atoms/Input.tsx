@@ -32,9 +32,7 @@ export const Input = (props: InputProps) => {
         <Icon
           name={props.iconRight}
           size={20}
-          style={{
-            paddingHorizontal: 10,
-          }}
+          style={styles.iconStyle}
           color={props.value ? COLORS.PRIMARY.d2 : COLORS.NEUTRAL.d3}
           onPress={props.iconOnPress}
         />
@@ -46,5 +44,8 @@ export const Input = (props: InputProps) => {
 const styles = StyleSheet.create({
   frame: {
     marginHorizontal: -15,
+  },
+  iconStyle: {
+    paddingHorizontal: 10,
   },
 });

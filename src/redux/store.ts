@@ -1,8 +1,10 @@
 import {combineReducers, configureStore} from '@reduxjs/toolkit';
-import placesSlice from './slices/placesSlice';
+import queryPlacesSlice from './slices/queryPlacesSlice';
+import placeDetailSlice from './slices/placeDetails';
 
 const reducer = combineReducers({
-  places: placesSlice,
+  queryPlaces: queryPlacesSlice,
+  placeDetail: placeDetailSlice,
 });
 
 const store = configureStore({

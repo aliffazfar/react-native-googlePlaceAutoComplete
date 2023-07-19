@@ -1,16 +1,16 @@
 import {Image, StyleSheet, Text, View} from 'react-native';
-import React, {Fragment, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {fetchPlaces, useAppDispatch, useAppSelector} from '../redux';
-import {WhiteSpace} from '@ant-design/react-native';
-import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
-import {SearchInputData, SearchLocationInput} from '../components';
+import {fetchPlaceDetail, fetchPlaces, useAppDispatch} from '../redux';
+import {Item, ListItems, RenderMap, SearchLocationInput} from '../components';
 import {COLORS} from '../styles';
 import {IMAGES} from '../assets';
+import {useQueryPlaces} from '../hooks';
+import {defaultLocationData} from '../utils';
 
 export const HomeScreen = () => {
   const dispatch = useAppDispatch();
-  const {isLoading, data} = useAppSelector(state => state.places);
+  const {isLoading, data} = useQueryPlaces();
 
   const [input, setInput] = useState<string>();
 
@@ -18,76 +18,75 @@ export const HomeScreen = () => {
     // if (input) dispatch(fetchPlaces(input));
   }, [input]);
 
-  let placesData: SearchInputData[] | undefined = data?.predictions.map(
-    prediction => {
-      return {
-        label: prediction.description,
-        value: prediction.place_id,
-      };
-    },
-  );
+  useEffect(() => {
+    // dispatch(fetchPlaceDetail(defaultLocationData[1].value));
+  }, []);
+
+  let placesData: Item[] | undefined = data?.predictions.map(prediction => {
+    return {
+      label: prediction.description,
+      value: prediction.place_id,
+    };
+  });
 
   return (
-    <>
-      <SafeAreaView
-        style={{
-          backgroundColor: COLORS.NEUTRAL.d9,
-          flex: 1,
-          paddingHorizontal: 32,
-        }}>
-        <View style={{flexDirection: 'row', marginVertical: 30}}>
-          <Text style={{fontSize: 28, flex: 1}}>Navigate Anywhere</Text>
-          <Image
-            source={IMAGES.PIN_LOCATION}
-            style={{
-              width: 60,
-              height: 60,
-              marginHorizontal: 20,
-              alignSelf: 'center',
-            }}
-          />
-        </View>
-        <MapView
-          // provider={PROVIDER_GOOGLE}
-          scrollEnabled
-          zoomEnabled
-          style={styles.map}
-          region={{
-            latitude: 37.78825,
-            longitude: -122.4324,
-            latitudeDelta: 0.015,
-            longitudeDelta: 0.0121,
-          }}>
-          <Marker
-            coordinate={{
-              latitude: 37.78825,
-              longitude: -122.4324,
-            }}
-            title="blablabla"
-          />
-        </MapView>
-        <WhiteSpace size="xl" />
-        <SearchLocationInput
-          data={placesData}
-          isLoading={isLoading}
-          placeholder="Search here"
-          value={input}
-          onChangeText={setInput}
-        />
-      </SafeAreaView>
-    </>
+    <SafeAreaView style={styles.wrapper}>
+      <View style={styles.header}>
+        <Text style={styles.headerText}>Navigate Anywhere</Text>
+        <Image source={IMAGES.PIN_LOCATION} style={styles.headerImg} />
+      </View>
+      <RenderMap
+        placeName={'Kuala Lumpur City Centre'}
+        latitude={3.1466}
+        longitude={101.6958}
+      />
+      <SearchLocationInput
+        data={placesData}
+        isLoading={isLoading}
+        placeholder="Search and discover"
+        value={input}
+        onChangeText={setInput}
+      />
+      <Text style={styles.labelText}>Quick lookout</Text>
+      <ListItems data={defaultLocationData} onPress={() => {}} />
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  wrapper: {
+    backgroundColor: COLORS.NEUTRAL.d9,
+    flex: 1,
+    paddingHorizontal: 32,
+  },
+  header: {
+    flexDirection: 'row',
+    marginVertical: 30,
+  },
+  headerText: {
+    fontSize: 26,
+    flex: 1,
+    paddingRight: 30,
+    alignSelf: 'center',
+  },
+  headerImg: {
+    width: 60,
+    height: 60,
+    marginHorizontal: 20,
+    alignSelf: 'center',
+  },
   container: {
     ...StyleSheet.absoluteFillObject,
     height: 400,
     justifyContent: 'flex-end',
     alignItems: 'center',
   },
-  map: {
-    height: 200,
-    borderRadius: 20,
+  labelText: {
+    fontSize: 12,
+    color: COLORS.NEUTRAL.d3,
+    fontStyle: 'italic',
+    fontWeight: 'bold',
+    marginTop: 20,
+    marginBottom: 5,
   },
 });

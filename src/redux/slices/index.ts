@@ -1,1 +1,2 @@
-export * from './placesSlice';
+export * from './queryPlacesSlice';
+export * from './placeDetails';
