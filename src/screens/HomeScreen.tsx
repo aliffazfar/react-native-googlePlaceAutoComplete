@@ -1,16 +1,12 @@
-import {StyleSheet, Text, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import {Image, StyleSheet, Text, View} from 'react-native';
+import React, {Fragment, useEffect, useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {fetchPlaces, useAppDispatch, useAppSelector} from '../redux';
-import {
-  ActivityIndicator,
-  Button,
-  Flex,
-  SearchBar,
-  WhiteSpace,
-  WingBlank,
-} from '@ant-design/react-native';
-import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
+import {WhiteSpace} from '@ant-design/react-native';
+import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
+import {SearchInputData, SearchLocationInput} from '../components';
+import {COLORS} from '../styles';
+import {IMAGES} from '../assets';
 
 export const HomeScreen = () => {
   const dispatch = useAppDispatch();
@@ -18,44 +14,68 @@ export const HomeScreen = () => {
 
   const [input, setInput] = useState<string>();
 
-  // useEffect(() => {
-  //   if (input) dispatch(fetchPlaces(input));
-  // }, [input]);
+  useEffect(() => {
+    // if (input) dispatch(fetchPlaces(input));
+  }, [input]);
 
-  const handlePress = () => {};
+  let placesData: SearchInputData[] | undefined = data?.predictions.map(
+    prediction => {
+      return {
+        label: prediction.description,
+        value: prediction.place_id,
+      };
+    },
+  );
 
   return (
-    <SafeAreaView style={{backgroundColor: '#fff'}}>
-      <WingBlank>
-        <SearchBar
-          placeholder="Search"
+    <>
+      <SafeAreaView
+        style={{
+          backgroundColor: COLORS.NEUTRAL.d9,
+          flex: 1,
+          paddingHorizontal: 32,
+        }}>
+        <View style={{flexDirection: 'row', marginVertical: 30}}>
+          <Text style={{fontSize: 28, flex: 1}}>Navigate Anywhere</Text>
+          <Image
+            source={IMAGES.PIN_LOCATION}
+            style={{
+              width: 60,
+              height: 60,
+              marginHorizontal: 20,
+              alignSelf: 'center',
+            }}
+          />
+        </View>
+        <MapView
+          // provider={PROVIDER_GOOGLE}
+          scrollEnabled
+          zoomEnabled
+          style={styles.map}
+          region={{
+            latitude: 37.78825,
+            longitude: -122.4324,
+            latitudeDelta: 0.015,
+            longitudeDelta: 0.0121,
+          }}>
+          <Marker
+            coordinate={{
+              latitude: 37.78825,
+              longitude: -122.4324,
+            }}
+            title="blablabla"
+          />
+        </MapView>
+        <WhiteSpace size="xl" />
+        <SearchLocationInput
+          data={placesData}
+          isLoading={isLoading}
+          placeholder="Search here"
           value={input}
-          onChange={setInput}
-          showCancelButton={false}
+          onChangeText={setInput}
         />
-        <WhiteSpace size="xl" />
-        <Button type="primary" onPress={handlePress}>
-          {data?.predictions[0].description}
-        </Button>
-        <WhiteSpace size="xl" />
-        <Flex>
-          <Flex.Item>
-            <ActivityIndicator animating={isLoading} text="Loading..." />
-          </Flex.Item>
-          <View style={styles.container}>
-            <MapView
-              // provider={PROVIDER_GOOGLE}
-              style={styles.map}
-              region={{
-                latitude: 37.78825,
-                longitude: -122.4324,
-                latitudeDelta: 0.015,
-                longitudeDelta: 0.0121,
-              }}></MapView>
-          </View>
-        </Flex>
-      </WingBlank>
-    </SafeAreaView>
+      </SafeAreaView>
+    </>
   );
 };
 
@@ -67,6 +87,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   map: {
-    ...StyleSheet.absoluteFillObject,
+    height: 200,
+    borderRadius: 20,
   },
 });

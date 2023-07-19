@@ -1,4 +1,4 @@
-const BLACK = {
+const NEUTRAL = {
   d0: '#121212',
   d1: '#212121',
   d2: '#3F3B3B',
@@ -12,16 +12,6 @@ const BLACK = {
 };
 
 const PRIMARY = {
-  d0: '#963D19',
-  d1: '#C85222',
-  d2: '#FA662A',
-  d3: '#FB8555',
-  d4: '#FCA37F',
-  d5: '#FDC2AA',
-  d6: '#FEE0D4',
-};
-
-const SECONDARY = {
   d0: '#930102',
   d1: '#C40102',
   d2: '#F50103',
@@ -32,7 +22,6 @@ const SECONDARY = {
 };
 
 export const COLORS = {
-  BLACK,
+  NEUTRAL,
   PRIMARY,
-  SECONDARY,
 };
