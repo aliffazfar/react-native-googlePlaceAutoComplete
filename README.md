@@ -9,7 +9,9 @@
     </p>
 </p>
 
-https://github.com/aliffazfar/react-native-googlePlaceAutoComplete/assets/97839622/5e3f96cd-ee67-4800-b2c5-6cf8f2fad0e7
+
+https://github.com/aliffazfar/react-native-googlePlaceAutoComplete/assets/97839622/139a612d-b7b7-4555-95fe-45855eb705d3
+
 
 ## Features
 
