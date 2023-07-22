@@ -1,8 +1,9 @@
-import {StyleSheet, Text} from 'react-native';
+import {StyleSheet} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {addRecentSearches, fetchPlaces, useAppDispatch} from '../redux';
 import {
+  AppText,
   HeaderIcon,
   Item,
   ListItems,
@@ -65,9 +66,10 @@ export const HomeScreen = () => {
         onChangeText={setInput}
         onPressItem={handleOnPressItem}
       />
-      <Text style={styles.labelText}>
-        {recentSearches ? 'Recent searches' : 'Quick lookout'}
-      </Text>
+      <AppText
+        style={styles.labelText}
+        text={recentSearches ? 'Recent searches' : 'Quick lookout'}
+      />
       <ListItems
         data={recentSearches ? recentSearches.slice(0, 3) : defaultLocationData}
         onPress={handleOnPressItem}

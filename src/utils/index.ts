@@ -22,3 +22,18 @@ export const defaultLocationData: Item[] = [
     value: 'ChIJW6IeoW9LzDERRhh2kBCUJaE',
   },
 ];
+
+export const formatTimeShow = (h_24: string) => {
+  let HH = Number(h_24.slice(0, 2));
+  let min = h_24.slice(2, 4);
+  let AMPM = HH >= 12 ? 'pm' : 'am';
+  let hours;
+  if (HH == 0) {
+    hours = HH + 12;
+  } else if (HH > 12) {
+    hours = HH - 12;
+  } else {
+    hours = HH;
+  }
+  return hours + ':' + min + ' ' + AMPM;
+};

@@ -2,14 +2,13 @@ import {
   ActivityIndicator,
   Dimensions,
   StyleSheet,
-  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
 import React, {Fragment, useState} from 'react';
 import {COLORS} from '../../styles';
 import {Flex, Modal, WhiteSpace} from '@ant-design/react-native';
-import {FooterByGoogle, Input, InputProps} from '../atoms';
+import {AppText, FooterByGoogle, Input, InputProps} from '../atoms';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {Item, ListItems} from '../ListItems';
 
@@ -40,7 +39,11 @@ export const SearchLocationInput = (props: SearchLocationInputProps) => {
         style={styles.wrapper}>
         <Flex direction="row-reverse" style={styles.flexContainer}>
           <Icon name="search" size={20} style={styles.icon} />
-          <Text style={styles.placeholder}>{props.placeholder}</Text>
+          <AppText
+            style={styles.placeholder}
+            color={COLORS.NEUTRAL.d4}
+            text={props.placeholder}
+          />
         </Flex>
       </TouchableOpacity>
       <Modal
@@ -73,9 +76,10 @@ export const SearchLocationInput = (props: SearchLocationInputProps) => {
           )}
           {props.isError ? (
             <View style={styles.error}>
-              <Text style={{textAlign: 'center'}}>
-                {'Oops,\nsomething went wrong'}
-              </Text>
+              <AppText
+                text={'Oops,\nsomething went wrong'}
+                textAlign={'center'}
+              />
             </View>
           ) : null}
         </View>
@@ -96,7 +100,6 @@ const styles = StyleSheet.create({
   },
   placeholder: {
     marginVertical: 10,
-    color: COLORS.NEUTRAL.d4,
     fontSize: 16,
     flex: 1,
   },

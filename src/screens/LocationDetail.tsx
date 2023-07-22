@@ -3,7 +3,6 @@ import {
   Linking,
   Platform,
   StyleSheet,
-  Text,
   View,
 } from 'react-native';
 import React, {useEffect} from 'react';
@@ -14,6 +13,7 @@ import {
   ListItemsDetails,
   RenderMap,
   detailItem,
+  AppText,
 } from '../components';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -21,6 +21,7 @@ import {useNavigation} from '@react-navigation/native';
 import {fetchPlaceDetail, useAppDispatch} from '../redux';
 import {useLocationDetail} from '../hooks';
 import {Flex} from '@ant-design/react-native';
+import {formatTimeShow} from '../utils';
 
 interface LocationDetailProps {
   route: {
@@ -44,7 +45,8 @@ export const LocationDetail = (props: LocationDetailProps) => {
   }, []);
 
   let detailsData: detailItem[] = [];
-  let openingFlag: boolean = false;
+  let openingFlag: boolean | undefined = data?.result?.opening_hours?.open_now;
+  let closeTime: string | undefined;
 
   if (data) {
     const {formatted_address, opening_hours} = data.result;
@@ -53,11 +55,19 @@ export const LocationDetail = (props: LocationDetailProps) => {
       description: formatted_address,
     });
     if (opening_hours) {
+      const {weekday_text, periods} = opening_hours;
       detailsData.push({
         label: 'Operating Hours',
-        description: opening_hours.weekday_text.join('\n'),
+        description: weekday_text.join('\n'),
       });
-      openingFlag = opening_hours.open_now;
+      if (periods) {
+        const today = new Date().getDay();
+        const todayPeriod = periods[today];
+        if (todayPeriod && todayPeriod.close) {
+          closeTime = formatTimeShow(todayPeriod.close.time);
+          closeTime = openingFlag ? `closed at ${closeTime}` : closeTime;
+        }
+      }
     }
   }
 
@@ -95,27 +105,27 @@ export const LocationDetail = (props: LocationDetailProps) => {
             placeName={data.result.name}
             latitude={data.result.geometry.location.lat}
             longitude={data.result.geometry.location.lng}
-            style={{marginBottom: 20}}
+            style={styles.map}
             onPress={handlePrimaryButton}
           />
-          <Flex direction="row">
-            <Text
-              style={[
-                styles.openingText,
-                {color: openingFlag ? COLORS.GREEN.d1 : COLORS.PRIMARY.d1},
-              ]}>
-              {openingFlag ? 'Open' : 'Closed'}
-            </Text>
-            <Text style={styles.dots}>•</Text>
-          </Flex>
+          {openingFlag !== undefined ? (
+            <Flex direction="row">
+              <AppText
+                style={styles.openingText}
+                color={openingFlag ? COLORS.GREEN.d1 : COLORS.PRIMARY.d1}
+                text={openingFlag ? 'Open' : 'Closed'}
+              />
+              {closeTime ? (
+                <AppText style={styles.dots} text={`• ${closeTime}`} />
+              ) : null}
+            </Flex>
+          ) : null}
           <ListItemsDetails data={detailsData} />
           <PrimaryButton title={'Directions'} onPress={handlePrimaryButton} />
         </View>
       ) : (
         <View style={styles.error}>
-          <Text style={{textAlign: 'center'}}>
-            {'Oops,\nsomething went wrong'}
-          </Text>
+          <AppText text={'Oops,\nsomething went wrong'} textAlign={'center'} />
         </View>
       )}
     </SafeAreaView>
@@ -133,11 +143,9 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   openingText: {
-    fontSize: 12,
     marginBottom: 10,
   },
   dots: {
-    fontSize: 12,
     marginBottom: 10,
     marginHorizontal: 5,
   },
@@ -145,5 +153,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignSelf: 'center',
+  },
+  map: {
+    marginBottom: 20,
   },
 });

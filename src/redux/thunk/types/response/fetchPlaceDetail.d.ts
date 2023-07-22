@@ -38,15 +38,16 @@ declare interface Southwest {
 
 declare interface OpeningHours {
   open_now: boolean;
-  periods: Period[];
+  periods?: Period[];
   weekday_text: string[];
 }
 
 declare interface Period {
-  open: Open;
+  open: PeriodDetail;
+  close?: PeriodDetail;
 }
 
-declare interface Open {
+declare interface PeriodDetail {
   day: number;
   time: string;
 }
